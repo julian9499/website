@@ -31,5 +31,9 @@ app.get('/dropout', function(req, res) {
     });
 });
 
+app.all('*', function(req, res) {
+    res.status(418).send('I\'m a teapot!')
+})
+
 app.listen(6381, () => console.log('Dropout app listening on port 6381!'))
 
