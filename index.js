@@ -14,8 +14,8 @@ app.use(markoExpress());
 app.get('/dropout', function(req, res) {
 
     var amount_of_days = 292;
-    var amount_of_students_on_day_1 = 450;
-    var percentage_that_drops_out = 0.40;
+    var amount_of_students_on_day_1 = 433;
+    var percentage_that_drops_out = 0.50;
 
     var students_per_day_that_drop_out = (amount_of_students_on_day_1/amount_of_days) * percentage_that_drops_out;
 
