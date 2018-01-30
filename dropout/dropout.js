@@ -13,7 +13,7 @@ module.exports = {
         var now = new Date();
 
         // Get the amount of days since starting_date
-        var current_day_in_year = Math.round(Math.abs((now.getTime() - starting_date.getTime())/(86400000)));
+        var current_day_in_year = Math.abs((now.getTime() - starting_date.getTime())/(86400000));
 
         // Get the ratio of dropouts based on the current day in the year
         var dropped_out_ratio = Math.log(current_day_in_year + 1) / (2 * Math.log(scaling_factor));
@@ -27,7 +27,7 @@ module.exports = {
         dropped_out_ratio = dropped_out_ratio * target_percentage_that_drops_out;
 
         // Get the current amount of dropouts
-        var dropped_out = (dropped_out_ratio * amount_of_students_on_day_1).toFixed(2);
+        var dropped_out = (dropped_out_ratio * amount_of_students_on_day_1);
 
         return dropped_out;
     }

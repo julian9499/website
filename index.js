@@ -10,11 +10,14 @@ app.use('/assets', express.static(path.join(__dirname, 'files/assets')))
 
 app.use(markoExpress()); 
 
+var api = require('./api');
+app.use('/api', api);
+
 var dropout_template = require('./files/dropout.marko');
 var dropout = require('./dropout/dropout');
 app.get('/dropout', function(req, res) {
     res.marko(dropout_template, {
-        dropouts: dropout.getDropouts()
+        dropouts: dropout.getDropouts().toFixed(4)
     });
 });
 
