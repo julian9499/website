@@ -67,11 +67,16 @@
     <script>
         setInterval(function() {
         var ajax = new XMLHttpRequest();
+        var latest_value = 0;
         ajax.onreadystatechange = function()
         {
             if(ajax.readyState == 4 && ajax.status == 200)
             {
-                document.getElementById('dropouts').textContent = parseFloat(ajax.responseText).toFixed(2);
+                var parsedValue = parseFloat(ajax.responseText).toFixed(2);
+                if(latest_value != parsedValue) {
+                    latest_value = parsedValue;
+                    document.getElementById('dropouts').textContent = parsedValue;
+                }
             }
         }
         ajax.open("get", "/api/dropouts"); 
