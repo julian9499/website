@@ -64,6 +64,20 @@
             font-family: "Comic Sans WF", "Comic Sans MS", "Comic Sans";
         }
     </style>
+    <script>
+        setInterval(function() {
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function()
+        {
+            if(ajax.readyState == 4 && ajax.status == 200)
+            {
+                document.getElementById('dropouts').textContent = parseFloat(ajax.responseText).toFixed(2);
+            }
+        }
+        ajax.open("get", "/api/dropouts"); 
+        ajax.send();
+    }, 1000);
+    </script>
 </head>
 <body>
     <div class="wrapper">
@@ -72,7 +86,7 @@
         </div>
         <div class='content'>
             <div class='text'>
-                Minstens ${data.dropouts} mensen hebben CSE al opgegeven
+                Minstens <span id="dropouts">${data.dropouts}</span> mensen hebben CSE al opgegeven
             </div>
         </div>
     </div>
