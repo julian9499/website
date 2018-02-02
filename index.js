@@ -17,7 +17,7 @@ var dropout_template = require('./files/dropout.marko');
 var dropout = require('./dropout/dropout');
 app.get('/dropout', function(req, res) {
     res.marko(dropout_template, {
-        dropouts: dropout.getDropouts().toFixed(2)
+        dropouts: parseInt(dropout.getDropouts()) 
     });
 });
 
