@@ -72,7 +72,7 @@
         {
             if(ajax.readyState == 4 && ajax.status == 200)
             {
-                var parsedValue = parseFloat(ajax.responseText).toFixed(2);
+                var parsedValue = parseInt(ajax.responseText);
                 if(latest_value != parsedValue) {
                     latest_value = parsedValue;
                     document.getElementById('dropouts').textContent = parsedValue;
@@ -81,7 +81,7 @@
         }
         ajax.open("get", "/api/dropouts"); 
         ajax.send();
-    }, 1000);
+    }, 10000);
     </script>
 </head>
 <body>
