@@ -21,9 +21,17 @@ app.get('/dropout', function(req, res) {
     });
 });
 
+var bingo_template = require('./files/bingo.marko');
+var bingo = require('./bingo/bingo');
+app.get('/bingo', function(req, res) {
+    res.marko(bingo_template, {
+        situations: bingo.situations
+    });
+});
+
 app.all('*', function(req, res) {
     res.status(204).send('No content.');
 })
 
-app.listen(6381, () => console.log('Dropout app listening on port 6381!'))
+app.listen(6381, () => console.log('Website listening on port 6381!'));
 
