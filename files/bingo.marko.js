@@ -20,9 +20,9 @@ function render(input, out, __component, component, state) {
 
   component_globals_tag({}, out);
 
-  out.w("<div id=\"wrapper\"><table class=\"output\"><tbody><tr><td class=\"output-cell\" style=\"padding: 0px;\"><table class=\"bingo-table\" style=\"width: 380px; margin-bottom: 0px;\"><thead><tr><th colspan=\"5\">Computer Science Bingo</th></tr></thead><tbody><tr><td class=\"header \" style=\"width: 76px;\">B</td><td class=\"header \" style=\"width: 76px;\">I</td><td class=\"header \" style=\"width: 76px;\">N</td><td class=\"header \" style=\"width: 76px;\">G</td><td class=\"header \" style=\"width: 76px;\">O</td></tr>");
+  out.w("<div id=\"wrapper\"><table class=\"output\"><tbody><tr><td class=\"output-cell\" style=\"padding: 0px;\"><table class=\"bingo-table\" style=\"width: 380px; margin-bottom: 0px;\"><thead><tr><th colspan=\"5\">Computer Science Bingo <span id=\"players\"></span></th></tr></thead><tbody><tr><td class=\"header \" style=\"width: 76px;\">B</td><td class=\"header \" style=\"width: 76px;\">I</td><td class=\"header \" style=\"width: 76px;\">N</td><td class=\"header \" style=\"width: 76px;\">G</td><td class=\"header \" style=\"width: 76px;\">O</td></tr>");
 
-  const amount = 36;
+  const amount = Object.keys(data.situations).length - 1;
   function shuffle(sourceArray) {
       for (var i = 0; i < amount; i++) {
           var j = i + Math.floor(Math.random() * (amount + 1 - i));
@@ -59,9 +59,7 @@ function render(input, out, __component, component, state) {
     marko_escapeXml(data.situations[10]) +
     "</td><td class=\"cell\" style=\"width: 76px; height: 76px;\" id=\"11\">" +
     marko_escapeXml(data.situations[11]) +
-    "</td><td class=\"cell\" style=\"width: 76px; height: 76px;\" id=\"12\">" +
-    marko_escapeXml(data.situations[12]) +
-    "</td><td class=\"cell\" style=\"width: 76px; height: 76px;\" id=\"13\">" +
+    "</td><td class=\"cell\" style=\"width: 76px; height: 76px;\" id=\"12\">free(*lunch);</td><td class=\"cell\" style=\"width: 76px; height: 76px;\" id=\"13\">" +
     marko_escapeXml(data.situations[13]) +
     "</td><td class=\"cell\" style=\"width: 76px; height: 76px;\" id=\"14\">" +
     marko_escapeXml(data.situations[14]) +
@@ -85,11 +83,11 @@ function render(input, out, __component, component, state) {
     marko_escapeXml(data.situations[23]) +
     "</td><td class=\"cell\" style=\"width: 76px; height: 76px;\" id=\"24\">" +
     marko_escapeXml(data.situations[24]) +
-    "</td></tr></tbody></table></td></tr></tbody></table><div id=\"hidden\"><div id=\"has-cell\" class=\"cell \" style=\"width: 76px; height: 76px;\"></div><textarea id=\"height-test\" class=\"cell \" style=\"width: 76px; height: 76px; font-size: 13px;\">Mensen met bontkraag aan tijdens college</textarea><span id=\"width-test\" class=\"cell \" style=\"width: 76px; height: 76px; font-size: 13px;\">bontkraag</span></div><script>\n    function checkIfBingo(id) {\n        var bingo = false;\n        for(var i = 0; i < 25; i++) {\n            var column = i % 5;\n            var row = Math.floor(i/5);\n            if(checkRow(row) || checkColumn(column) || checkDiagonal()) {\n                bingo = true;\n                break;\n            }\n        }\n        if(bingo) {\n            $('#wrapper').addClass('wrapper');\n        } else {\n            $('#wrapper').removeClass('wrapper');\n        }\n    }\n\n    function checkRow(row) {\n        var starting_id = (row * 5);\n        var bingo = true;\n        for(var i = 0; i < 5; i++) {\n            console.log('#' + (starting_id + i));\n            if(!$('#' + (starting_id+i)).hasClass('highlighted')) {\n                bingo = false;\n            }\n        }\n        return bingo;                \n    }\n\n    function checkColumn(column) {\n        var bingo = true;\n        for(var i = 0; i < 5; i++) {\n            if(!$('#' + (column + (5*i))).hasClass('highlighted')) {\n                bingo = false;\n            }\n        }\n        return bingo;\n    }\n\n    function checkDiagonal() {\n        return ((h(0) && h(6) && h(12) && h(18) && h(24)) || (h(4) && h(8) && h(12) && h(16) && h(20))) ? true : false\n    }\n\n    function h(id) {\n        return $('#' + id).hasClass('highlighted');\n    }\n\n    $('.cell').click(function() {\n        $(this).toggleClass('highlighted');\n        checkIfBingo();\n    });\n</script></div>");
+    "</td></tr></tbody></table></td></tr></tbody></table><div id=\"hidden\"><div id=\"has-cell\" class=\"cell \" style=\"width: 76px; height: 76px;\"></div><textarea id=\"height-test\" class=\"cell \" style=\"width: 76px; height: 76px; font-size: 13px;\">Mensen met bontkraag aan tijdens college</textarea><span id=\"width-test\" class=\"cell \" style=\"width: 76px; height: 76px; font-size: 13px;\">bontkraag</span></div><script>\n    \n    var id = Math.floor((Math.random() * 9999999999999999));\n\n    setInterval(function() {\n        $.post('/api/alive', {\n            'id':  id\n        }, function(data){});\n        $.get('/api/active_clients', function(data) {\n            console.log(data);\n            if(data == 1) {\n                $('#players').html('(1 speler)');\n            } else {\n                $('#players').html('(' + data + ' spelers)');0\n            }\n        });\n    }, 5000);\n\n    function checkIfBingo(id) {\n        var bingo = false;\n        for(var i = 0; i < 25; i++) {\n            var column = i % 5;\n            var row = Math.floor(i/5);\n            if(checkRow(row) || checkColumn(column) || checkDiagonal()) {\n                bingo = true;\n                break;\n            }\n        }\n        if(bingo) {\n            $('#wrapper').addClass('wrapper');\n        } else {\n            $('#wrapper').removeClass('wrapper');\n        }\n    }\n\n    function checkRow(row) {\n        var starting_id = (row * 5);\n        var bingo = true;\n        for(var i = 0; i < 5; i++) {\n            console.log('#' + (starting_id + i));\n            if(!$('#' + (starting_id+i)).hasClass('highlighted')) {\n                bingo = false;\n            }\n        }\n        return bingo;                \n    }\n\n    function checkColumn(column) {\n        var bingo = true;\n        for(var i = 0; i < 5; i++) {\n            if(!$('#' + (column + (5*i))).hasClass('highlighted')) {\n                bingo = false;\n            }\n        }\n        return bingo;\n    }\n\n    function checkDiagonal() {\n        return ((h(0) && h(6) && h(12) && h(18) && h(24)) || (h(4) && h(8) && h(12) && h(16) && h(20))) ? true : false\n    }\n\n    function h(id) {\n        return $('#' + id).hasClass('highlighted');\n    }\n\n    $('.cell').click(function() {\n        $(this).toggleClass('highlighted');\n        checkIfBingo();\n    });\n</script></div>");
 
   init_components_tag({}, out);
 
-  await_reorderer_tag({}, out, __component, "60");
+  await_reorderer_tag({}, out, __component, "61");
 
   out.w("</body></html>");
 }

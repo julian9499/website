@@ -352,7 +352,7 @@ table.bingo-table {
                     <table class="bingo-table" style="width: 380px; margin-bottom: 0px;">
                         
                         <thead>
-                            <tr><th colspan="5">Computer Science Bingo</th></tr>
+                            <tr><th colspan="5">Computer Science Bingo <span id="players"></span></th></tr>
                         </thead>
                         
                         <tbody><tr>
@@ -370,7 +370,7 @@ table.bingo-table {
                         </tr>
 
                         $ {
-                                const amount = 36;
+                                const amount = Object.keys(data.situations).length - 1;
                                 function shuffle(sourceArray) {
                                     for (var i = 0; i < amount; i++) {
                                         var j = i + Math.floor(Math.random() * (amount + 1 - i));
@@ -403,7 +403,7 @@ table.bingo-table {
                             <tr>
                                     <td class="cell" style="width: 76px; height: 76px;" id="10">${data.situations[10]}</td>
                                     <td class="cell" style="width: 76px; height: 76px;" id="11">${data.situations[11]}</td>
-                                    <td class="cell" style="width: 76px; height: 76px;" id="12">${data.situations[12]}</td>
+                                    <td class="cell" style="width: 76px; height: 76px;" id="12">free(*lunch);</td>
                                     <td class="cell" style="width: 76px; height: 76px;" id="13">${data.situations[13]}</td>
                                     <td class="cell" style="width: 76px; height: 76px;" id="14">${data.situations[14]}</td>
                             </tr>
@@ -442,6 +442,23 @@ table.bingo-table {
 </div>
 
 <script>
+    
+    var id = Math.floor((Math.random() * 9999999999999999));
+
+    setInterval(function() {
+        $.post('/api/alive', {
+            'id':  id
+        }, function(data){});
+        $.get('/api/active_clients', function(data) {
+            console.log(data);
+            if(data == 1) {
+                $('#players').html('(1 speler)');
+            } else {
+                $('#players').html('(' + data + ' spelers)');0
+            }
+        });
+    }, 5000);
+
     function checkIfBingo(id) {
         var bingo = false;
         for(var i = 0; i < 25; i++) {

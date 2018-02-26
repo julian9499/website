@@ -14,7 +14,7 @@ var situations = {
         '12': "Pinho kijkt de zaal in",
         '13': "Er zijn memes gemaakt tijdens de lecture",
         '14': "Er gaat weer eens iets mis in de dia's",
-        '15': "Iemands telefoon gat af",
+        '15': "Iemands telefoon gaat af",
         '16': "Iemand gooit de microfoon verkeerd",
         '17': "Freek vonk kijkt boos om",
         '18': "Mensen die aan het gamen zijn tijdens college",
