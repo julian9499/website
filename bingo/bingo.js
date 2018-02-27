@@ -8,7 +8,7 @@ var situations = {
         '6': "Mensen met bontkraag aan tijdens college",
         '7': "Ze interpreteert de vraag verkeerd",
         '8': "Staartmans gaat praten",
-        '9': "Mensen komen veels te laat binnen",
+        '9': "Mensen komen veel te laat binnen",
         '10': "Freek kan weer eens niet gewoon engels praten",
         '11': "Microfoon gooien gaat in 1 keer goed",
         '12': "Pinho kijkt de zaal in",
