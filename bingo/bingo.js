@@ -40,6 +40,8 @@ var situations = {
         "38": "Steks",
         "39": "Slide wordt geskipt",
         "40": "In de pauze lopen mensen naar voren om vragen te stellen",
+        "41": "Microfoon maakt de zaal doof",
+        "42": "Iemand stelt dezelfde vraag als iemand anders"
 };
 
 module.exports = {
