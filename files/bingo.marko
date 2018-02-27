@@ -50,24 +50,19 @@ $ {
 
     
         function setFontSize(){
-            // the demo element is an empty element with the proper CSS class
             var demo = $('#has-cell');
             var WIDTH = parseInt(demo.css('width'));
             var HEIGHT = parseInt(demo.css('height'));
             var FONT_SIZE = parseInt(demo.css('font-size'));
 
-            // we need two elements to detect overflowing text in the horizontal and vertical directions
             var height_test = document.getElementById("height-test");
             var $height_test = $("#height-test");
             var $width_test = $("#width-test");
 
-            // we do a binary search to find the right font-size
             var binary_iters = Math.ceil(Math.log(FONT_SIZE) / Math.log(2)) + 1;
 
-            // cache the results so we don't have to do the heavy calculations again
             var cache = {};
 
-            // for each cell, change its font size to the largest it can be without overflowing
             var elements = $("table .cell");
             for(var i = 0; i < elements.length; i++){
                 var $element = $(elements[i]);
@@ -79,32 +74,24 @@ $ {
 
                 var font_size = FONT_SIZE;
                 var delta = Math.floor(FONT_SIZE / 2.0);
-                // set the text on the two testing elements
                 $height_test.val($element.text());
                 $width_test.text(getLongestWord($element));
                 
                 for(var j = 0; j < binary_iters; j++){
-                    // for some reason, IE needs this reset on each iteration
                     $height_test.val($element.text());
 
-                    // change the font size and check if it overflows
                     $height_test.css('font-size', font_size + "px");
                     $width_test.css('font-size', font_size + "px");
                     var overflows = hasScrollbar(height_test) || $width_test.outerWidth() > WIDTH;
-                    //var overflows = hasScrollbar(height_test) || $width_test.outerWidth() > WIDTH;
                     if(overflows){
                         font_size -= delta;
                     } else if(j == binary_iters - 1) {
-                        // we didn't overflow on the last iteration, which means we hit the right value
-                        // so don't increase the font size again
                         break;
                     } else {
                         font_size += delta;
                     }
                     delta = Math.ceil(delta / 2.0);
                 }
-                // the Math.min makes sure that we don't get larger than the default font size
-                // take it out if you want your font size to expand too
                 font_size = Math.min(font_size, FONT_SIZE);
                 $element.css('font-size', font_size + "px");
                 cache[id] = font_size;
@@ -156,7 +143,6 @@ $ {
             font: inherit;
             vertical-align: baseline;
         }
-        /* HTML5 display-role reset for older browsers */
         article, aside, details, figcaption, figure, 
         footer, header, hgroup, menu, nav, section {
             display: block;
@@ -222,9 +208,6 @@ $ {
             font-family: "Comic Sans WF", Arial, Helvetica, sans-serif;
             font-size:28px;
             cursor:pointer;
-            /* 75 for 4x4*/
-            /* 90 for 1x2 */
-            /* 150 for 1x1 */
             width: 150px;
             height:150px;
             background-color:#fff;
@@ -235,7 +218,7 @@ $ {
         }
 
         #height-test, #width-test {
-            padding:8px; /* adjust to make text fit in box without touching border */
+            padding:8px;
         }
 
         #height-test {
@@ -403,11 +386,8 @@ $ {
         </table>
 
         <div id="hidden">
-            <!-- used to get the CSS info, so don't put anything in here -->
             <div id="has-cell" class="cell " style="width: 76px; height: 76px;"></div>
-            <!-- used to test if the text overflows the textarea -->
             <textarea id="height-test" class="cell " style="width: 76px; height: 76px; font-size: 13px;">Mensen met bontkraag aan tijdens college</textarea>
-            <!-- used to test if a single word overflows -->
             <span id="width-test" class="cell " style="width: 76px; height: 76px; font-size: 13px;">bontkraag</span>
         </div>
 
@@ -506,6 +486,11 @@ $ {
                 $(this).toggleClass('highlighted');
                 checkIfBingo();
             });
+
+            
+            const andy = "                                  ,**/(#####(/*,.                              \n" + "                            .,/#(((#((((#((##(((((/.                           \n" + "                          .*(//(///////**////*/////**,                         \n" + "                        .//*****,,*,**,,,,,*,**********//,.                    \n" + "                      ,/*****,,,,,,,,,,,,,,,,,,,,,******//(#,                  \n" + "                    *(******,,,,,,,,,,,,,,,,,,,,,,,******///##                 \n" + "                  ,#(*****,,,,,,,,,,.......,,,,,,,,,,*****///##                \n" + "                 ,#(*****,,,,,,,.............,,,,,,,,,****////#/               \n" + "                 ##******,,,,...................,,,,,,,*****///#*              \n" + "                *#(******,,,,....................,,,,,,,,****//#(              \n" + "                *#/*****,,,,.....................,,,,,,,,***///(#.             \n" + "                /#/*****,,,,.......................,,,,,,***///(#,             \n" + "                /#/****,,,,,.........................,,,,,**///(#*             \n" + "                ,#(/****,,,,,.......................,,,,*****///#(             \n" + "                .#(/***,,,,,,,...................,*((###***/(///##             \n" + "                .#(/***,,,*,,,,***,,,,,,,....,,**/(#((/*****((//(%.            \n" + "                 #(//**,*,***,,,,*//////**,..,,/(((*/#%##(/*///##//.         \n" + "                 /////*,,,,**,*,,*//***/*,,...,/(*/,.*##/*///**//#((#(.        \n" + "                 *(///*,,,,.,*/(/%%#..,*,,,,..,//*,,,,,,,**/*,,*/(/(((*        \n" + "              ***,/(//*,,,,,.,,,,,****,,.,,,,.,//**,,,,,,,,..,,*/#(/((,        \n" + "             ,/**,,*//***,,....,,,,,,....,,,,.,*//*,,.......,,,*/##((,         \n" + "             ,,,*.,*/*****,.............,,,,..,**//*,,,....,,,*/(#((           \n" + "              ,,,.,,.*/***,,,,..........,,,,...,,***/*,,,..,,**((#(*           \n" + "               .,,,,../(/*,,,,........,,,,,,,..,,//(#/**,,,***/((#(,           \n" + "                 ,*,,,*(//**,,,....,,,,,,(##/***(%%#((/*///**/(##(/            \n" + "                  ,,,.,*///**,,,,,,/,,,,,,,,*/#%&&%(/***///*,*(((,             \n" + "                   ,,,,**/(/***,,*/,,,,,,,,,,******////(#%/,,*#((.             \n" + "                       ,//(/*****,,,**,*******/((#%((#&(,.,/#(*              \n" + "                        **///**,,,**#%/*.,......,/#(///*,.*##/.              \n" + "                        .**/(*/,*/,,,,.,******,,,,**////,,**(##.               \n" + "                         //*/////,,*,...,,.,,,*,,***/(/,,,,(%#/                \n" + "                        ,#((//////**,,...,**,****////*,,,.,(%(                 \n" + "                    #%&%/(((((//(#/,,.......,,*****,,,.,,,*(#                  \n" + "                   /%%&/*////(#(((((*...,......,,.,,,,,,**(%(                  \n" + "                   %%%%#*/*///(#%(((/,,......,,.,,,,,,,,*/%@&%(                \n" + "                  (%%%%%%%////*///&%(#/,,..,.,,,,,,***/*(&@@@&%&%.             \n" + "                 .%%%%%%%%%%(////*//%&%#/,,,,*,,***/(/(%#@@@@@&%&&((,          \n" + "                .%%%%%%%%%%%%%#////**/(%&&&%#(##%%%&%%##%@@@@@@&&%%##&&%%%/  ";
+            console.log("%c%s%c%s", "color: blue;font-size: 1em; font-weight: bolder; text-shadow: red 2px 2px;", andy, "color: red; font-size: 4.5em; font-weight: bolder;", "\nNo fraud detected");
+
         </script>
     </div>
 </body>
