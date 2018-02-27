@@ -182,15 +182,6 @@ table {
 
 }
 
-//@font-face {
-//    font-family: "Comic Sans WF";
-//    src: url("assets/comic_sans.ttf") format("truetype");
-//}
-
-table.bingo-table {
-    border-collapse:collapse;
-}
-
 .bingo-table th {
     font-family:"Comic Sans WF", Arial, Arial, Helvetica, sans-serif;
     font-size:32px;
@@ -325,23 +316,37 @@ table.bingo-table {
     top: 0;
     bottom: 0;
     position: absolute;
-    background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
-    background-size: 1800% 1800%;
-    animation: rainbow 10s ease infinite;
+    /* background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3); */
+    /* background-size: 1800% 1800%; */
+    background-image:url("/assets/bingo.svg");
+    background-repeat: repeat;
 }
 
-@keyframes rainbow { 
-    0%{background-position:0% 82%}
-    50%{background-position:100% 19%}
-    100%{background-position:0% 82%}
+.right_moving {
+    animation: moving-to-right 60s linear infinite;
+}
+
+.left_moving {
+    animation: moving-to-left 60s linear infinite;
+}
+
+@keyframes moving-to-right { 
+    0%{background-position:0% 0%}
+    100%{background-position:600% 600%}
+}
+
+@keyframes moving-to-left { 
+    0%{background-position:600% 600%}
+    100%{background-position:0% 0%}
 }
 
 </style>
 
 </head>
 <body>
-    <div id="wrapper">
-     
+    <div class="wrap right_moving">
+    <div class="wrap left_moving">
+    
         
             
     <table class="output">
@@ -403,7 +408,7 @@ table.bingo-table {
                             <tr>
                                     <td class="cell" style="width: 76px; height: 76px;" id="10">${data.situations[10]}</td>
                                     <td class="cell" style="width: 76px; height: 76px;" id="11">${data.situations[11]}</td>
-                                    <td class="cell" style="width: 76px; height: 76px;" id="12">free(*lunch);</td>
+                                    <td class="cell" style="width: 76px; height: 76px;" id="12">no free(*lunch);</td>
                                     <td class="cell" style="width: 76px; height: 76px;" id="13">${data.situations[13]}</td>
                                     <td class="cell" style="width: 76px; height: 76px;" id="14">${data.situations[14]}</td>
                             </tr>
@@ -450,7 +455,6 @@ table.bingo-table {
             'id':  id
         }, function(data){});
         $.get('/api/active_clients', function(data) {
-            console.log(data);
             if(data == 1) {
                 $('#players').html('(1 speler)');
             } else {
@@ -464,15 +468,38 @@ table.bingo-table {
         for(var i = 0; i < 25; i++) {
             var column = i % 5;
             var row = Math.floor(i/5);
-            if(checkRow(row) || checkColumn(column) || checkDiagonal()) {
+            if(checkRow(row) || checkColumn(column)) {
                 bingo = true;
                 break;
             }
         }
+
+        if(checkDiagonal()) {
+            bingo = true;
+        }
+
         if(bingo) {
-            $('#wrapper').addClass('wrapper');
+            var bingo_blink;
+            const BLINK_TIME = 300;
+            const TABLE = 'table';
+            $('.wrap').addClass('wrapper');
+            $(TABLE).hide();
+            setTimeout(function() {
+                $(TABLE).show();
+            }, BLINK_TIME);
+            bingo_blink = setInterval(function() {
+                $(TABLE).hide();
+                setTimeout(function() {
+                    $(TABLE).show();
+                }, BLINK_TIME);
+            }, 2*BLINK_TIME);
+            
+            setTimeout(function() {
+                clearInterval(bingo_blink);
+                $(TABLE).show();
+            }, BLINK_TIME * 15);
         } else {
-            $('#wrapper').removeClass('wrapper');
+            $('.wrap').removeClass('wrapper');
         }
     }
 
@@ -480,7 +507,6 @@ table.bingo-table {
         var starting_id = (row * 5);
         var bingo = true;
         for(var i = 0; i < 5; i++) {
-            console.log('#' + (starting_id + i));
             if(!$('#' + (starting_id+i)).hasClass('highlighted')) {
                 bingo = false;
             }
@@ -511,5 +537,6 @@ table.bingo-table {
         checkIfBingo();
     });
 </script>
+</div>
 </div>
 </body></html>

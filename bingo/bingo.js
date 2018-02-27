@@ -24,7 +24,7 @@ var situations = {
         '22': "Niemand zit naast freek vonk",
         '23': "Wachten tot iedereen stil is",
         '24': "Iemand slaapt tijdens college",
-        '25': "Calculus cijfer is bekend",
+        '25': "Melvin neemt het college over",
         '26': "'Ask your neighbour'",
         '27': "'You can do this at home'",
         '28': "Three/Tree",
@@ -40,7 +40,6 @@ var situations = {
         "38": "Steks",
         "39": "Slide wordt geskipt",
         "40": "In de pauze lopen mensen naar voren om vragen te stellen",
-        "41": "Melvin neemt het college over"
 };
 
 module.exports = {
