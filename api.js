@@ -35,13 +35,18 @@ setInterval(function() {
 }, 5000);
 
 /* Starcraft current game*/
-const LOCATION_OF_GAME_NUMBER = "body>table:nth-child(1)>tbody>tr:nth-child(3)>td:nth-child(3)";
+const LOCATION_OF_GAME_NUMBER = "body > table > tbody > tr:nth-child(3)";
 router.get('/starcraft/current_game', function(req, res) {
     JSDOM.fromFile("files/starcraft/index.html", { includeNodeLocations: true }).then(dom => {
-        var innerText = dom.window.document.querySelectorAll(LOCATION_OF_GAME_NUMBER)[0].innerText;
+        var innerText = dom.window.document.querySelector(LOCATION_OF_GAME_NUMBER).innerHTML;
+        innerText = innerText.replace(/ /g, "").replace(/\n/, "");
+        innerText = innerText.replace(/^((?!<td><center>([0-9]+\/[0-9]+)<\/center><\/td>).)*$/gimu, "");
+        innerText = innerText.replace(/((?!([0-9]+\/[0-9]+)))(<\/center><\/td>)+/gimu, "").replace(/<td><center>/gimu, "").replace(/\s/gimu, "");
         var index = innerText.indexOf("/");      
-        var game_number = innerText.substring(0,index-1);
+        var game_number = innerText.substring(0,index);
         res.send(game_number);
+    }).catch((error) => {
+        console.log(error);
     });
 }); 
 
