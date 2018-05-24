@@ -37,7 +37,7 @@ setInterval(function() {
 /* Starcraft current game*/
 const LOCATION_OF_GAME_NUMBER = "body>table:nth-child(1)>tbody>tr:nth-child(3)>td:nth-child(3)";
 router.get('/starcraft/current_game', function(req, res) {
-    JSDOM.fromFile("files/starcraft/index.html", options).then(dom => {
+    JSDOM.fromFile("files/starcraft/index.html", { includeNodeLocations: true }).then(dom => {
         var innerText = dom.window.document.querySelectorAll(LOCATION_OF_GAME_NUMBER)[0].innerText;
         var index = innerText.indexOf("/");      
         var game_number = innerText.substring(0,index-1);
