@@ -10,6 +10,7 @@ var app = express();
 var path = require('path')
 app.use('/assets', express.static(path.join(__dirname, 'files/assets')))
 app.use('/starcraft', express.static(path.join(__dirname, 'files/starcraft')))
+app.use('/starcraft/replays', express.static(path.join(__dirname, 'files/starcraft')))
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
