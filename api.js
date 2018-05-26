@@ -1,4 +1,5 @@
 var express = require('express');
+var fs = require('fs');
 var router = express.Router();
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
@@ -34,20 +35,37 @@ setInterval(function() {
     }
 }, 5000);
 
+
 /* Starcraft current game*/
-const LOCATION_OF_GAME_NUMBER = "body > table > tbody > tr:nth-child(3)";
+var game_number = -1;
+const LOCATION_OF_GAME_NUMBER = "body > table > tbody > tr:last-child > td";
+const RESULTS_LOCATION = "files/starcraft/results.html";
+
+
+setInterval(() => {
+    fs.access(RESULTS_LOCATION, fs.constants.F_OK, (err) => {
+        if(!err) {
+            JSDOM.fromFile(RESULTS_LOCATION, { includeNodeLocations: true }).then(dom => {
+                var innerText = dom.window.document.querySelector(LOCATION_OF_GAME_NUMBER).innerHTML;
+                game_number = parseInt(parseGameNumber(innerText))+1;
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+        if(err) {
+            game_number = -1;
+        }
+    })
+}, 5000);
+
+
 router.get('/starcraft/current_game', function(req, res) {
-    JSDOM.fromFile("files/starcraft/index.html", { includeNodeLocations: true }).then(dom => {
-        var innerText = dom.window.document.querySelector(LOCATION_OF_GAME_NUMBER).innerHTML;
-        innerText = innerText.replace(/ /g, "").replace(/\n/, "");
-        innerText = innerText.replace(/^((?!<td><center>([0-9]+\/[0-9]+)<\/center><\/td>).)*$/gimu, "");
-        innerText = innerText.replace(/((?!([0-9]+\/[0-9]+)))(<\/center><\/td>)+/gimu, "").replace(/<td><center>/gimu, "").replace(/\s/gimu, "");
-        var index = innerText.indexOf("/");      
-        var game_number = innerText.substring(0,index);
-        res.send(game_number);
-    }).catch((error) => {
-        console.log(error);
-    });
+        res.send(game_number.toString());
 }); 
+
+function parseGameNumber(string) {
+        var index = string.indexOf("/");      
+        return string.substring(index,string.length).replace(/\/ /, '').replace(/^0+(?=\d)/g, '');
+}
 
 module.exports = router;
