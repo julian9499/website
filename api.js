@@ -38,8 +38,10 @@ router.get('/dropouts', function(req, res) {
 
 /* Starcraft current game*/
 var game_number = -1;
+var scheduleContents = "";
 const LOCATION_OF_GAME_NUMBER = "body > table > tbody > tr:last-child > td";
 const RESULTS_LOCATION = "files/starcraft/results.html";
+const SCHEDULE_LOCATION = "files/starcraft_schedule.txt";
 
 setInterval(() => {
     fs.access(RESULTS_LOCATION, fs.constants.F_OK, (err) => {
@@ -54,13 +56,41 @@ setInterval(() => {
         if(err) {
             game_number = -1;
         }
-    })
+    });
+
 }, 5000);
+
+fs.access(SCHEDULE_LOCATION, fs.constants.F_OK, (err) => {
+    if(!err) {
+        fs.readFile(SCHEDULE_LOCATION, (fileErr, data) => {
+            scheduleContents = data.toString();
+        });
+    }
+});
 
 
 router.get('/starcraft/current_game', function(req, res) {
         res.send(game_number.toString());
 }); 
+
+router.get('/starcraft/next/:team([a-zA-Z0-9]+)', function(req, res) {
+    var regex = "(\\d)+(?=\\s+\\d+\\s+([a-zA-Z0-9]+\\s+)?" + req.params.team + ")";
+    var re = new RegExp(regex, "gi");
+    foundMatches = scheduleContents.match(re);
+    var found = false;
+    for(var i in foundMatches) {
+        var nextGame = foundMatches[i];
+        if(nextGame > game_number) {
+            res.send("Next game for " + req.params.team + " is game #" + nextGame);
+            var found = true;
+            break;
+        }
+    }
+    if(!found) {
+        res.send("There is no next game for " + req.params.team);
+    }
+    
+})
 
 function parseGameNumber(string) {
         var index = string.indexOf("/");      
