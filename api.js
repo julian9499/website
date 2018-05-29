@@ -11,36 +11,35 @@ router.get('/dropouts', function(req, res) {
 
 
 /* BINGO CURRENT PLAYERS*/
-var active_clients = {};
-var bingo = require('./bingo/bingo');
-router.post('/alive', function(req, res) {
-    var id = req.body.id;
-    if(typeof id != "undefined" && typeof id == "string") {
-        active_clients[id] = Math.round((new Date()).getTime() / 1000) + 6;
-        res.send("OK");
-    } else {
-        res.send("No.");
-    }
-});
+// var active_clients = {};
+// var bingo = require('./bingo/bingo');
+// router.post('/alive', function(req, res) {
+//     var id = req.body.id;
+//     if(typeof id != "undefined" && typeof id == "string") {
+//         active_clients[id] = Math.round((new Date()).getTime() / 1000) + 6;
+//         res.send("OK");
+//     } else {
+//         res.send("No.");
+//     }
+// });
 
-router.get('/active_clients', function(req, res) {
-    res.send(Object.keys(active_clients).length + "");
-});
+// router.get('/active_clients', function(req, res) {
+//     res.send(Object.keys(active_clients).length + "");
+// });
 
-setInterval(function() {
-    for(var client in active_clients) {
-        if(active_clients[client] < Math.round((new Date()).getTime() / 1000)) {
-            delete active_clients[client];
-        } 
-    }
-}, 5000);
+// setInterval(function() {
+//     for(var client in active_clients) {
+//         if(active_clients[client] < Math.round((new Date()).getTime() / 1000)) {
+//             delete active_clients[client];
+//         } 
+//     }
+// }, 5000);
 
 
 /* Starcraft current game*/
 var game_number = -1;
 const LOCATION_OF_GAME_NUMBER = "body > table > tbody > tr:last-child > td";
 const RESULTS_LOCATION = "files/starcraft/results.html";
-
 
 setInterval(() => {
     fs.access(RESULTS_LOCATION, fs.constants.F_OK, (err) => {

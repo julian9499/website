@@ -27,11 +27,11 @@ router.get('/', function(req, res) {
     if(isRunning) {
         res.sendFile(dirPath + '/index.html');
     } else {
-        var content = "";
+        var content = "<head><style>@font-face { font-family: \"Comic Sans WF\"; src: url(\"/assets/comic_sans.ttf\") format(\"truetype\"); } a { font-family: \"Comic Sans WF\", \"Comic Sans MS\", \"Comic Sans\" }; </style></head>";
         for(var i in fileArray) {
             var fileName = fileArray[i];
             if(fileName.charAt(0) != '.') {
-                content += "<a href='" + fileName + "/'>" + fileName +"</a><br />";
+                content += "<a href='" + fileName + "/'>" + fileName.replace('_round', 'Tournament ') +"</a><br />";
             }
         }
         res.send(content);
@@ -42,7 +42,7 @@ router.get('*', (req, res) => {
     var path = (dirPath + req.path).replace('/replays', '');
     fs.access(path, fs.constants.F_OK, (err) => {
         if(!err) {
-            res.sendFile(path);
+            res.sendFile(path, {dotfiles: 'deny'});
         } else {
             res.sendStatus(204);
         }
