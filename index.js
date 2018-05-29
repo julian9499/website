@@ -9,8 +9,6 @@ var app = express();
  
 var path = require('path')
 app.use('/assets', express.static(path.join(__dirname, 'files/assets')))
-app.use('/starcraft', express.static(path.join(__dirname, 'files/starcraft')))
-app.use('/starcraft/replays', express.static(path.join(__dirname, 'files/starcraft')))
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -23,6 +21,9 @@ app.use(markoExpress());
 
 var api = require('./api');
 app.use('/api', api);
+
+var starcraft = require('./starcraft/starcraft');
+app.use('/starcraft', starcraft);
 
 var dropout_template = require('./files/dropout.marko');
 var dropout = require('./dropout/dropout');
