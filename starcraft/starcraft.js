@@ -40,8 +40,9 @@ router.get('/', function(req, res) {
 });
 
 router.get('/test', function(req, res) {
-    var schedule = new Schedule(path.join(__dirname, '../files/starcraft_schedule.txt'));
-    res.send("ok");
+    new Schedule(path.join(__dirname, '../files/starcraft_schedule.txt')).then((schedule => {
+        res.send(schedule.getNextGameOf("wombat"));
+    }));
 })
 
 router.get('*', (req, res) => {    
