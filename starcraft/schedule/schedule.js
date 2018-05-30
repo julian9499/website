@@ -57,7 +57,6 @@ class Schedule {
         })
     }        
 
-
     getList() {
         return this._gameList;
     }
@@ -72,13 +71,13 @@ class Schedule {
 
     getNextGameOf(team) {
         var team = team.toLowerCase();
-        console.log(this._gameList);
-        for(var i in this._gameList) {
-            var entry = this._gameList[i];
-            console.log(entry);
-            if(entry.getGameNumber() > this._currentgame) {
-                if(team == entry.getFirstTeam().toLowerCase() || team == entry.getSecondTeam().toLowerCase()) {
-                    return entry;
+        if(this._currentgame != -1) {
+            for(var i in this._gameList) {
+                var entry = this._gameList[i];
+                if(entry.getGameNumber() > this._currentgame) {
+                    if(team == entry.getFirstTeam().toLowerCase() || team == entry.getSecondTeam().toLowerCase()) {
+                        return entry;
+                    }
                 }
             }
         }
