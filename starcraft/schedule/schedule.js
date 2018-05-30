@@ -69,6 +69,7 @@ class Schedule {
         this._currentgame = gamenumber;
     }
 
+    // Check if the tournament of this schedule is active.
     isActive() {
         if(this._currentgame < 0) {
             return false;
@@ -77,6 +78,7 @@ class Schedule {
         }
     }
 
+    // Gets the ScheduleEntry of a teams next match
     getNextGameOf(team) {
         var team = team.toLowerCase();
         if(this.isActive()) {
@@ -89,6 +91,7 @@ class Schedule {
                 }
             }
         }
+        // If the match is not active or there are no games left, return an invalid ScheduleEntry.
         return new ScheduleEntry(-1, 0, 0, 0, 0);
     }
 
