@@ -69,9 +69,17 @@ class Schedule {
         this._currentgame = gamenumber;
     }
 
+    isActive() {
+        if(this._currentgame < 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     getNextGameOf(team) {
         var team = team.toLowerCase();
-        if(this._currentgame != -1) {
+        if(this.isActive()) {
             for(var i in this._gameList) {
                 var entry = this._gameList[i];
                 if(entry.getGameNumber() > this._currentgame) {
