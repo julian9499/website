@@ -4,6 +4,7 @@ var router = express.Router();
 var path = require('path');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
+const { Schedule } = require("./schedule/schedule");
 
 var isRunning = false;
 var fileArray = [];
@@ -37,6 +38,11 @@ router.get('/', function(req, res) {
         res.send(content);
     }
 });
+
+router.get('/test', function(req, res) {
+    var schedule = new Schedule(path.join(__dirname, '../files/starcraft_schedule.txt'));
+    res.send("ok");
+})
 
 router.get('*', (req, res) => {    
     var path = (dirPath + req.path).replace('/replays', '');
