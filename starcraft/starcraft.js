@@ -10,6 +10,7 @@ var isRunning = false;
 var fileArray = [];
 
 var dirPath = path.join(__dirname, '../files/starcraft');
+
 setInterval(function() {
     fs.access(dirPath + '/index.html', fs.constants.F_OK, (err) => {
         if(!err) {

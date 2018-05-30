@@ -36,6 +36,9 @@ class ScheduleEntry {
     setMap(map) {
         this._map = map;
     }
+    toString() {
+        return "#" + this.getGameNumber() + " - " + this.getFirstTeam() + " vs " + this.getSecondTeam() + " on map " + this.getMap();
+    }
 }
 
 module.exports = { ScheduleEntry };
