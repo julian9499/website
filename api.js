@@ -81,7 +81,7 @@ router.get('/starcraft/next/:team([a-zA-Z0-9]+)', function(req, res) {
     for(var i in foundMatches) {
         var nextGame = foundMatches[i];
         if(nextGame > game_number) {
-            res.send("Next game for " + req.params.team + " is game #" + nextGame);
+            res.send("Next game for " + req.params.team + " is game #" + nextGame + ". The current game is #" + game_number + ".");
             var found = true;
             break;
         }
