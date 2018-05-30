@@ -78,7 +78,22 @@ class Schedule {
         }
     }
 
-    // Gets the ScheduleEntry of a teams next match
+    // Gets the next game on the schedule.
+    getNextGame() {
+        if(this.isActive()) {
+            for(var i in this._gameList) {
+                var entry = this._gameList[i];
+                if(entry.getGameNumber() > this._currentgame) {
+                    return entry;
+                }
+            }
+        }
+        
+        // If the match is not active or there are no games left, return an invalid ScheduleEntry.
+        return new ScheduleEntry(-1, 0, 0, 0, 0);
+    }
+
+    // Gets the ScheduleEntry of a teams next match.
     getNextGameOf(team) {
         var team = team.toLowerCase();
         if(this.isActive()) {

@@ -77,16 +77,34 @@ fs.access(SCHEDULE_LOCATION, fs.constants.F_OK, (err) => {
 });
 
 
+/**
+ * Adds a route for the current game number.
+ */
 router.get('/starcraft/current_game', function(req, res) {
         res.send(game_number.toString());
 }); 
 
+/**
+ * Adds a route for team specific next game.
+ */
 router.get('/starcraft/next/:team([a-zA-Z0-9]+)', function(req, res) {
     var game = schedule.getNextGameOf(req.params.team);
     if(game.getGameNumber() == -1) {
         res.send("There is no next game for " + req.params.team + ".");
     } else {
         res.send("Next game for " + req.params.team + ": " + game.toString() + ". Currently at game #" + game.getGameNumber()); 
+    }
+})
+
+/**
+ * Adds a route for generic next game
+ */
+router.get('/starcraft/next', function(req, res) {
+    var game = schedule.getNextGame();
+    if(game.getGameNumber() == -1) {
+        res.send("There is no next game.");
+    } else {
+        res.send(game.toString()); 
     }
 })
 
