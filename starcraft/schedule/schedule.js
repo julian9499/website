@@ -43,14 +43,20 @@ function _parseFile(fileLocation, callback) {
 
 class Schedule {
     constructor(fileLocation) {
-        // Assign an empty array to the variable to avoid 'undefined' when the file is being parsed.
-        this._gameList = [];
+        // Set the current game number equal to zero.
+        this._currentgame = 0;
 
-        // Parse the file and assign the results to _gameList.
-        _parseFile(fileLocation, (list) => {
-            this._gameList = list;
-        });
-    }
+        // Parse the file and assign the results to _gameList. It uses promises to ensure
+        // that the file is parsed before using anything of this class.
+        // Usage: new Schedule(path).then((schedule) => {});
+        return new Promise((resolve, reject) => {
+            _parseFile(fileLocation, (list) => {
+                this._gameList = list;
+                resolve(this);
+            });
+        })
+    }        
+
 
     getList() {
         return this._gameList;
