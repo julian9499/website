@@ -62,6 +62,29 @@ class Schedule {
         return this._gameList;
     }
 
+    getCurrentGame() {
+        return this._currentgame;
+    }
+
+    setCurrentGame(gamenumber) {
+        this._currentgame = gamenumber;
+    }
+
+    getNextGameOf(team) {
+        var team = team.toLowerCase();
+        console.log(this._gameList);
+        for(var i in this._gameList) {
+            var entry = this._gameList[i];
+            console.log(entry);
+            if(entry.getGameNumber() > this._currentgame) {
+                if(team == entry.getFirstTeam().toLowerCase() || team == entry.getSecondTeam().toLowerCase()) {
+                    return entry;
+                }
+            }
+        }
+        return new ScheduleEntry(-1, 0, 0, 0, 0);
+    }
+
 }
 
 module.exports = { Schedule };
