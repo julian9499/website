@@ -3,6 +3,8 @@ var fs = require('fs');
 var router = express.Router();
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
+const { Schedule } = require('./starcraft/schedule/schedule');
+const { ScheduleEntry } = require('./starcraft/schedule/entry');
 
 var dropout = require('./dropout/dropout');
 router.get('/dropouts', function(req, res) {
@@ -38,10 +40,14 @@ router.get('/dropouts', function(req, res) {
 
 /* Starcraft current game*/
 var game_number = -1;
-var scheduleContents = "";
 const LOCATION_OF_GAME_NUMBER = "body > table > tbody > tr:last-child > td";
 const RESULTS_LOCATION = "files/starcraft/results.html";
 const SCHEDULE_LOCATION = "files/starcraft_schedule.txt";
+
+var schedule;
+new Schedule(SCHEDULE_LOCATION).then((s) => {
+    schedule = s;
+});
 
 setInterval(() => {
     fs.access(RESULTS_LOCATION, fs.constants.F_OK, (err) => {
@@ -49,12 +55,14 @@ setInterval(() => {
             JSDOM.fromFile(RESULTS_LOCATION, { includeNodeLocations: true }).then(dom => {
                 var innerText = dom.window.document.querySelector(LOCATION_OF_GAME_NUMBER).innerHTML;
                 game_number = parseInt(parseGameNumber(innerText))+1;
+                schedule.setCurrentGame(game_number);
             }).catch((error) => {
                 console.log(error);
             });
         }
         if(err) {
             game_number = -1;
+            schedule.setCurrentGame(game_number);
         }
     });
 
@@ -74,22 +82,12 @@ router.get('/starcraft/current_game', function(req, res) {
 }); 
 
 router.get('/starcraft/next/:team([a-zA-Z0-9]+)', function(req, res) {
-    var regex = "(\\d)+(?=\\s+\\d+\\s+([a-zA-Z0-9]+\\s+)?" + req.params.team + ")";
-    var re = new RegExp(regex, "gi");
-    foundMatches = scheduleContents.match(re);
-    var found = false;
-    for(var i in foundMatches) {
-        var nextGame = foundMatches[i];
-        if(nextGame > game_number) {
-            res.send("Next game for " + req.params.team + " is game #" + nextGame + ". The current game is #" + game_number + ".");
-            var found = true;
-            break;
-        }
+    var game = schedule.getNextGameOf(req.params.team);
+    if(game.getGameNumber() == -1) {
+        res.send("There is no next game for " + req.params.team + ".");
+    } else {
+        res.send("Next game for " + req.params.team + ": " + game.toString() + ". Currently at game #" + game.getGameNumber()); 
     }
-    if(!found) {
-        res.send("There is no next game for " + req.params.team);
-    }
-    
 })
 
 function parseGameNumber(string) {
