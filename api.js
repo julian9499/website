@@ -94,11 +94,15 @@ router.get('/starcraft/current_game', function(req, res) {
  * Adds a route for team specific next game.
  */
 router.get('/starcraft/next/:team([a-zA-Z0-9]+)', function(req, res) {
-    var game = schedule.getNextGameOf(req.params.team);
-    if(game.getGameNumber() == -1) {
-        res.send("There is no next game for " + req.params.team + ".");
+    if(req.params.team == "null") {
+        res.redirect('/api/starcraft/next');
     } else {
-        res.send("Next game for " + req.params.team + ": " + game.toString() + ". Currently at game #" + schedule.getCurrentGameNumber()); 
+        var game = schedule.getNextGameOf(req.params.team);
+        if(game.getGameNumber() == -1) {
+            res.send("There is no next game for " + req.params.team + ".");
+        } else {
+            res.send("Next game for " + req.params.team + ": " + game.toString() + ". Currently at game #" + schedule.getCurrentGameNumber()); 
+        }
     }
 })
 
