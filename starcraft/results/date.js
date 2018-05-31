@@ -1,7 +1,7 @@
 function _parseDate(datestring) {
     var charArray = Array.from(datestring);
     if(datestring.length != 15) {
-        console.log(datestring + " has an incorrect size.");
+        // console.log(datestring + " has an incorrect size.");
         return new Date();
     } else {
         var year    = charArray.slice(0, 4).join("");

@@ -1,4 +1,8 @@
+var { ResultDate } = require('./date');
+
+
 class ResultEntry {
+
     constructor(round, game, replay, winner, loser, map, duration, winnerScore, loserScore, wlmax, w55, w1000, w10000, l55, l1000, l10000, winaddr, loseaddr, start, finish) {
         this._round = round;
         this._game = game;
@@ -18,8 +22,8 @@ class ResultEntry {
         this._l10000 = l10000;
         this._winaddr = winaddr;
         this._loseaddr = loseaddr;
-        this._start = start;
-        this._finish = finish;
+        this._start = new ResultDate(start);
+        this._finish = new ResultDate(finish);
     }
 
     getRound() {
@@ -171,7 +175,7 @@ class ResultEntry {
     }
     
     setStartingTime(start) {
-        this._start = start;
+        this._start = new ResultDate(start);
     }
     
     getFinishTime() {
@@ -179,7 +183,7 @@ class ResultEntry {
     }
     
     setFinishTime(finish) {
-        this._finish = finish;
+        this._finish = new ResultDate(finish);
     }
     
 }
