@@ -61,11 +61,11 @@ class Schedule {
         return this._gameList;
     }
 
-    getCurrentGame() {
+    getCurrentGameNumber() {
         return this._currentgame;
     }
 
-    setCurrentGame(gamenumber) {
+    setCurrentGameNumber(gamenumber) {
         this._currentgame = gamenumber;
     }
 
@@ -75,6 +75,14 @@ class Schedule {
             return false;
         } else {
             return true;
+        }
+    }
+
+    getCurrentGame() {
+        if(this.isActive()) {
+            return this._gameList[this._currentgame];
+        } else {
+            return ScheduleEntry.invalid();
         }
     }
 
@@ -88,7 +96,7 @@ class Schedule {
                 }
             }
         }
-        
+                
         // If the match is not active or there are no games left, return an invalid ScheduleEntry.
         return new ScheduleEntry(-1, 0, 0, 0, 0);
     }

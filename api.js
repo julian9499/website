@@ -55,14 +55,14 @@ setInterval(() => {
             JSDOM.fromFile(RESULTS_LOCATION, { includeNodeLocations: true }).then(dom => {
                 var innerText = dom.window.document.querySelector(LOCATION_OF_GAME_NUMBER).innerHTML;
                 game_number = parseInt(parseGameNumber(innerText))+1;
-                schedule.setCurrentGame(game_number);
+                schedule.setCurrentGameNumber(game_number);
             }).catch((error) => {
                 console.log(error);
             });
         }
         if(err) {
             game_number = -1;
-            schedule.setCurrentGame(game_number);
+            schedule.setCurrentGameNumber(game_number);
         }
     });
 
@@ -92,7 +92,7 @@ router.get('/starcraft/next/:team([a-zA-Z0-9]+)', function(req, res) {
     if(game.getGameNumber() == -1) {
         res.send("There is no next game for " + req.params.team + ".");
     } else {
-        res.send("Next game for " + req.params.team + ": " + game.toString() + ". Currently at game #" + game.getGameNumber()); 
+        res.send("Next game for " + req.params.team + ": " + game.toString() + ". Currently at game #" + schedule.getCurrentGameNumber()); 
     }
 })
 
