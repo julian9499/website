@@ -1,7 +1,7 @@
 class ScheduleEntry {
-    constructor(gameNumber, digit, firstTeam, secondTeam, map) {
+    constructor(gameNumber, round, firstTeam, secondTeam, map) {
         this._gameNumber = gameNumber;
-        this._digit = digit;
+        this._round = round;
         this._firstTeam = firstTeam;
         this._secondTeam = secondTeam;
         this._map = map;
@@ -15,11 +15,11 @@ class ScheduleEntry {
     setGameNumber(gameNumber) {
         this._gameNumber = gameNumber;
     }
-    getDigit() {
-        return this._digit;
+    getRound() {
+        return this._round;
     }
-    setDigit(digit) {
-        this._digit = digit;
+    setRound(round) {
+        this._round = round;
     }
     getFirstTeam() {
         return this._firstTeam;
