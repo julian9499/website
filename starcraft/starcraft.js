@@ -42,8 +42,12 @@ router.get('/', function(req, res) {
 });
 
 router.get('/test', function(req, res) {
-    new Result(dirPath + "/results.html");
-    res.send("OK");
+    new Result(dirPath + "/results.html").then((results) => {
+        for(var i in results.getResults()) {
+            console.log(results.getResults()[i].getGame());
+        }
+        res.send("" + results.getResults()[0].getGame());
+    });
     // new Schedule(path.join(__dirname, '../files/starcraft_schedule.txt')).then((schedule => {
     //     res.send(schedule.getNextGameOf("wombat"));
     // }));
