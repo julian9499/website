@@ -1,8 +1,6 @@
 var express = require('express');
 var fs = require('fs');
 var router = express.Router();
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
 const { Schedule } = require('./starcraft/schedule/schedule');
 const { ScheduleEntry } = require('./starcraft/schedule/entry');
 const { Result } = require('./starcraft/results/result');
@@ -42,7 +40,6 @@ router.get('/dropouts', function(req, res) {
 
 /* Starcraft current game*/
 var game_number = -1;
-const LOCATION_OF_GAME_NUMBER = "body > table > tbody > tr:last-child > td";
 const RESULTS_LOCATION = "files/starcraft/results.html";
 const SCHEDULE_LOCATION = "files/starcraft_schedule.txt";
 

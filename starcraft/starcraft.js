@@ -2,8 +2,6 @@ var express = require('express');
 var fs = require('fs');
 var router = express.Router();
 var path = require('path');
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
 const { Schedule } = require("./schedule/schedule");
 const { Result } = require("./results/result");
 
