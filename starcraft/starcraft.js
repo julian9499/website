@@ -5,7 +5,7 @@ var path = require('path');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const { Schedule } = require("./schedule/schedule");
-const { ResultDate } = require("./results/date");
+const { Result } = require("./results/result");
 
 var isRunning = false;
 var fileArray = [];
@@ -42,8 +42,8 @@ router.get('/', function(req, res) {
 });
 
 router.get('/test', function(req, res) {
-    var date = new ResultDate("20180529_220347");
-    res.send(date.getDate());
+    new Result(dirPath + "/results.html");
+    res.send("OK");
     // new Schedule(path.join(__dirname, '../files/starcraft_schedule.txt')).then((schedule => {
     //     res.send(schedule.getNextGameOf("wombat"));
     // }));
