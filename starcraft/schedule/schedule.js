@@ -101,6 +101,10 @@ class Schedule {
 
     // Gets the ScheduleEntry of a teams next match.
     getNextGameOf(team) {
+        if(team == "" | team == null) {
+            return this.getNextGame();
+        }
+
         var team = team.toLowerCase();
         if(this.isActive()) {
             for(var i in this._gameList) {
