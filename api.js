@@ -81,7 +81,13 @@ fs.access(SCHEDULE_LOCATION, fs.constants.F_OK, (err) => {
  * Adds a route for the current game number.
  */
 router.get('/starcraft/current_game', function(req, res) {
-        res.send(game_number.toString());
+    var game = schedule.getCurrentGame();
+    
+    if(game.getGameNumber() == -1) {
+        res.send("There no game right now.");
+    } else {
+        res.send("Current game: " + game.toString()); 
+    }
 }); 
 
 /**
