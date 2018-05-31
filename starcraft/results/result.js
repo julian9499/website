@@ -192,6 +192,10 @@ class Result {
     getResults() {
         return this._results;
     }
+
+    getCurrentGameNumber() {
+        return this._results.length;
+    }
 }
 
 module.exports = { Result };

@@ -61,6 +61,10 @@ class Schedule {
         return this._gameList;
     }
 
+    getAmountOfGames() {
+        return this._gameList.length-1;
+    }
+
     getCurrentGameNumber() {
         return this._currentgame;
     }

@@ -5,6 +5,8 @@ const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const { Schedule } = require('./starcraft/schedule/schedule');
 const { ScheduleEntry } = require('./starcraft/schedule/entry');
+const { Result } = require('./starcraft/results/result');
+const { ResultEntry } = require('./starcraft/results/entry');
 
 var dropout = require('./dropout/dropout');
 router.get('/dropouts', function(req, res) {
@@ -49,20 +51,25 @@ new Schedule(SCHEDULE_LOCATION).then((s) => {
     schedule = s;
 });
 
+var results;
+new Result(RESULTS_LOCATION).then((r) => {
+    results = r;
+});
+
 setInterval(() => {
     fs.access(RESULTS_LOCATION, fs.constants.F_OK, (err) => {
         if(!err) {
-            JSDOM.fromFile(RESULTS_LOCATION, { includeNodeLocations: true }).then(dom => {
-                var innerText = dom.window.document.querySelector(LOCATION_OF_GAME_NUMBER).innerHTML;
-                game_number = parseInt(parseGameNumber(innerText))+1;
-                schedule.setCurrentGameNumber(game_number);
-            }).catch((error) => {
-                console.log(error);
+            new Result(RESULTS_LOCATION).then((r) => {
+                results = r;
+                if(results.getCurrentGameNumber() != schedule.getAmountOfGames()) {
+                    schedule.setCurrentGameNumber(results.getCurrentGameNumber());
+                } else {
+                    schedule.setCurrentGameNumber(-1);
+                }
             });
         }
         if(err) {
-            game_number = -1;
-            schedule.setCurrentGameNumber(game_number);
+            schedule.setCurrentGameNumber(-1);
         }
     });
 
@@ -117,10 +124,5 @@ router.get('/starcraft/next', function(req, res) {
         res.send(game.toString()); 
     }
 })
-
-function parseGameNumber(string) {
-        var index = string.indexOf("/");      
-        return string.substring(index,string.length).replace(/\/ /, '').replace(/^0+(?=\d)/g, '');
-}
 
 module.exports = router;
