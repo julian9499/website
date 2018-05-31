@@ -89,11 +89,9 @@ class Schedule {
     // Gets the next game on the schedule.
     getNextGame() {
         if(this.isActive()) {
-            for(var i in this._gameList) {
-                var entry = this._gameList[i];
-                if(entry.getGameNumber() > this._currentgame) {
-                    return entry;
-                }
+            var nextGameNumber = this._currentgame+1;
+            if(nextGameNumber < this._gameList.length) {
+                return this._gameList[this._currentgame+1];
             }
         }
                 
