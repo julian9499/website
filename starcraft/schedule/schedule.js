@@ -43,8 +43,8 @@ function _parseFile(fileLocation, callback) {
 
 class Schedule {
     constructor(fileLocation) {
-        // Set the current game number equal to zero.
-        this._currentgame = 0;
+        // Set the current game number equal to -1.
+        this._currentgame = -1;
 
         // Parse the file and assign the results to _gameList. It uses promises to ensure
         // that the file is parsed before using anything of this class.
