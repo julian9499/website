@@ -13,5 +13,15 @@ module.exports = {
                 callback(false);
             }
         });
+    },
+
+    readFile: (path, callback) => {
+        fs.readFile(path, "utf8", (err, data) => {
+            if(err) {
+                throw err;
+            } else {
+                callback(data);
+            }
+        });
     }
 };
