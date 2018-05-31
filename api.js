@@ -58,7 +58,7 @@ setInterval(() => {
         if(!err) {
             new Result(RESULTS_LOCATION).then((r) => {
                 results = r;
-                if(results.getCurrentGameNumber() != schedule.getAmountOfGames()) {
+                if(results.getCurrentGameNumber() < schedule.getAmountOfGames()) {
                     schedule.setCurrentGameNumber(results.getCurrentGameNumber());
                 } else {
                     schedule.setCurrentGameNumber(-1);
