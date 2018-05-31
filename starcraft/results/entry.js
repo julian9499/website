@@ -1,11 +1,10 @@
 class ResultEntry {
-    constructor(round, game, winner, winnerReplay, loser, loserReplay, map, duration, winnerScore, loserScore, wlmax, w55, w1000, w10000, l55, l1000, l10000, winaddr, loseaddr, start, finish) {
+    constructor(round, game, replay, winner, loser, map, duration, winnerScore, loserScore, wlmax, w55, w1000, w10000, l55, l1000, l10000, winaddr, loseaddr, start, finish) {
         this._round = round;
         this._game = game;
+        this._replay = replay;
         this._winner = winner;
-        this._winnerReplay = winnerReplay;
         this._loser = loser;
-        this._loserReplay = loserReplay;
         this._map = map;
         this._duration = duration;
         this._winnerScore = winnerScore;
@@ -48,11 +47,11 @@ class ResultEntry {
     }
 
     getReplay() {
-        return this._winnerReplay;
+        return this._replay;
     }
 
     setReplay(replay) {
-        this._winnerReplay = replay;
+        this._replay = replay;
     }
     
     getLoser() {
