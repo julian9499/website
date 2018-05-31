@@ -6,6 +6,9 @@ class ScheduleEntry {
         this._secondTeam = secondTeam;
         this._map = map;
     }
+    static invalid() {
+        return new this(-1, 0, 0, 0, 0);
+    }
     getGameNumber() {
         return this._gameNumber;
     }

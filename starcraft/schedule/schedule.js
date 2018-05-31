@@ -98,7 +98,7 @@ class Schedule {
         }
                 
         // If the match is not active or there are no games left, return an invalid ScheduleEntry.
-        return new ScheduleEntry(-1, 0, 0, 0, 0);
+        return ScheduleEntry.invalid();
     }
 
     // Gets the ScheduleEntry of a teams next match.
@@ -115,7 +115,7 @@ class Schedule {
             }
         }
         // If the match is not active or there are no games left, return an invalid ScheduleEntry.
-        return new ScheduleEntry(-1, 0, 0, 0, 0);
+        return ScheduleEntry.invalid();
     }
 
 }
