@@ -28,7 +28,7 @@ router.get('/', function(req, res) {
     if(isRunning) {
         res.sendFile(dirPath + '/index.html');
     } else {
-        var content = "<head><style>@font-face { font-family: \"Comic Sans WF\"; src: url(\"/assets/comic_sans.ttf\") format(\"truetype\"); } a { font-family: \"Comic Sans WF\", \"Comic Sans MS\", \"Comic Sans\" }; </style></head>";
+        var content = "<head><style>@font-face { font-family: \"Comic Sans WF\"; src: url(\"/assets/comic_sans.ttf\") format(\"truetype\"); } body { text-align: center; } a { font-size: 80px; font-family: \"Comic Sans WF\", \"Comic Sans MS\", \"Comic Sans\" }; </style></head>";
         for(var i in fileArray) {
             var fileName = fileArray[i];
             if(fileName.charAt(0) != '.') {
