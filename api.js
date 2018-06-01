@@ -88,7 +88,7 @@ router.get('/starcraft/current_game', function(req, res) {
     var game = schedule.getCurrentGame();
     
     if(game.getGameNumber() == -1) {
-        res.send("There no game right now.");
+        res.send("There is no game right now.");
     } else {
         res.send("Current game: " + game.toString()); 
     }
