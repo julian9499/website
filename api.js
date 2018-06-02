@@ -105,7 +105,7 @@ router.get('/starcraft/next/:team([a-zA-Z0-9]+)', function(req, res) {
         if(game.getGameNumber() == -1) {
             res.send("There is no next game for " + req.params.team + ".");
         } else {
-            res.send("Next game for " + req.params.team + ": " + game.toString() + ". Currently at game #" + schedule.getCurrentGameNumber()); 
+            res.send("Next " + req.params.team + " game: " + game.toString() + ". Currently at game #" + schedule.getCurrentGameNumber()); 
         }
     }
 })

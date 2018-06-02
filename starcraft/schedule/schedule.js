@@ -23,7 +23,7 @@ function _parseFile(fileLocation, callback) {
                 var digit = regexExecution[2];
                 var firstTeam = regexExecution[3];
                 var secondTeam = regexExecution[4];
-                var map = regexExecution[5];
+                var map = /([A-Za-z0-9]+)(?=\.)/.exec(regexExecution[5])[0];
                 
                 // Push it to the array.
                 entryList.push(new ScheduleEntry(gameNumber, digit, firstTeam, secondTeam, map)); 

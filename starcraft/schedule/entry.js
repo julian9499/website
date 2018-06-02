@@ -40,7 +40,7 @@ class ScheduleEntry {
         this._map = map;
     }
     toString() {
-        return "#" + this.getGameNumber() + " - " + this.getFirstTeam() + " vs " + this.getSecondTeam() + " on map " + this.getMap();
+        return "#" + this.getGameNumber() + " - " + this.getFirstTeam() + " vs " + this.getSecondTeam() + " on " + this.getMap();
     }
 }
 
