@@ -2,6 +2,7 @@ var express = require('express');
 var fs = require('fs');
 var router = express.Router();
 const { Schedule } = require('./starcraft/schedule/schedule');
+const { ScheduleEntry } = require('./starcraft/schedule/entry');
 const { Result } = require('./starcraft/results/result');
 const { ResultEntry } = require('./starcraft/results/entry');
 const { Index } = require('./starcraft/overview/index');
@@ -157,6 +158,46 @@ router.get('/starcraft/get_previous_games', function(req, res) {
 
     res.send(response);
 })
+
+
+router.get('/starcraft/get_next_games', (req, res) => {
+    var lookup_size = 5;
+    var gameEnd = schedule.getCurrentGameNumber() + lookup_size;
+    
+    var games = [];
+
+    for(var i = schedule.getCurrentGameNumber() + 1; i <= gameEnd; i++) {
+        games.push(schedule.getGame(i));
+    }
+
+    if(games[0] == null) {
+        for(var i in games) {
+            games[i] = ScheduleEntry.invalid();
+        }
+    }
+
+    var response = [];
+    for(var i in games) {
+        var g = games[i];
+        var firstTeam = index.getTeam(g.getFirstTeam());
+        var secondTeam = index.getTeam(g.getSecondTeam());
+        response.push(
+            {
+                'game': g.getGameNumber(),
+                'firstTeam': g.getFirstTeam(),
+                'firstRace': firstTeam.getRace(),
+                'firstWinrate': firstTeam.getWinrate(),
+                'secondTeam': g.getSecondTeam(),
+                'secondRace': secondTeam.getRace(),
+                'secondWinrate': secondTeam.getWinrate(),
+                'map': g.getMap(),
+                'eta': schedule.timeBetweenGames(index, schedule.getCurrentGameNumber(), g.getGameNumber())
+            }
+        );
+    }
+
+    res.send(response);
+});
 
 /**
  * Adds a route for team specific next game.

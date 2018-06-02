@@ -83,7 +83,7 @@ class Result {
         if(number < this._results.length) {
             return this._results[number];
         } else {
-            return ScheduleEntry.invalid();
+            return ResultEntry.invalid();
         }
     }
 

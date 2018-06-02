@@ -22,7 +22,7 @@ class Team {
     }
 
     static invalid() {
-        return new this("Unknown", "unknown", 0, 0, 0, 0, 0, 0, 0, 0);
+        return new this("Unknown", "unknown", 0, 0, 0, 0, "0:00", 0, 0, 0);
     }
 
     getName() {

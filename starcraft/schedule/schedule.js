@@ -75,7 +75,7 @@ class Schedule {
     }
 
     getGame(number) {
-        if(number < this._gameList.length) {
+        if(number < this._gameList.length && typeof(this._gameList[number]) != "undefined") {
             return this._gameList[number];
         } else {
             return ScheduleEntry.invalid();

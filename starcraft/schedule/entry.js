@@ -7,7 +7,7 @@ class ScheduleEntry {
         this._map = map;
     }
     static invalid() {
-        return new this(-1, 0, 0, 0, 0);
+        return new this(-1, 0, "Unknown", "Unknown", 0);
     }
     getGameNumber() {
         return this._gameNumber;
