@@ -143,8 +143,10 @@ router.get('/starcraft/get_previous_games', function(req, res) {
             {
                 'game': g.getGame(),
                 'winner': g.getWinner(),
+                'winnerRace': index.getTeam(g.getWinner()).getRace(),
                 'winnerScore': g.getWinnerScore(),
                 'loser': g.getLoser(),
+                'loserRace': index.getTeam(g.getLoser()).getRace(),
                 'loserScore': g.getLoserScore(),
                 'replay': g.getReplay(),
                 'map': g.getMap(),
