@@ -166,7 +166,7 @@ class Schedule {
 
         }
 
-        var time_dilation = 0.3;
+        var time_dilation = 0.3533;
         return timeUtils.formatSecondsToDate(total * time_dilation);
 
     }
