@@ -39,8 +39,21 @@ class ScheduleEntry {
     setMap(map) {
         this._map = map;
     }
-    toString() {
+    toString(index) {
+        if(index.getTeams().length == 0) {
+            return this._simpleToString();
+        } else {
+            return this._extendedToString(index);
+        }
+    }
+    _simpleToString() {
         return "#" + this.getGameNumber() + " - " + this.getFirstTeam() + " vs " + this.getSecondTeam() + " on " + this.getMap();
+    }
+    _extendedToString(index) {
+        var firstTeam = index.getTeam(this.getFirstTeam());
+        var secondTeam = index.getTeam(this.getSecondTeam());
+
+        return "#" + this.getGameNumber() + " - " + firstTeam.toString() + " vs " + secondTeam.toString() + " on " + this.getMap();
     }
 }
 
