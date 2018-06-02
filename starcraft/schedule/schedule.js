@@ -163,7 +163,6 @@ class Schedule {
 
 
             total += (firstTeam.getAvgTime() + secondTeam.getAvgTime())/2;
-            console.log(total);
 
         }
 
