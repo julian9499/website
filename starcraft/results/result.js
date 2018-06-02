@@ -24,71 +24,34 @@ function _parseResults(data) {
 
     if(data != null && data != undefined && data != "") {
         var jQuery = cheerio.load(data, cheerioSettings);
-        function _parseResults(data) {
-            var results = [];
-        
-            if(data != null && data != undefined && data != "") {
-                var jQuery = cheerio.load(data, cheerioSettings);
-        
-                var row = jQuery("table > tbody > tr");
-                for(var i = 0; i < row.length; i++) {
-                    var c = cheerio.load(row[i], cheerioSettings).text().split("\n");
-                    var replay_link = cheerio.load(row[i], cheerioSettings)("td").find("a").attr("href");
-        
-                    var roundAndGame = _parseRoundColumn(c[1]);
-                    results.push(new ResultEntry(
-                        roundAndGame[0],
-                        roundAndGame[1],
-                        replay_link,
-                        c[2],
-                        c[3],
-                        c[6],
-                        c[7],
-                        c[8],
-                        c[9],
-                        c[10],
-                        c[11],
-                        c[12],
-                        c[13],
-                        c[14],
-                        c[15],
-                        c[16],
-                        c[17],
-                        c[18],
-                        c[19],
-                        c[20]
-                    ));
-                }
-            }
-            return results;
-        }
+
         var row = jQuery("table > tbody > tr");
         for(var i = 0; i < row.length; i++) {
             var c = cheerio.load(row[i], cheerioSettings).text().split("\n");
             var replay_link = cheerio.load(row[i], cheerioSettings)("td").find("a").attr("href");
 
-            var roundAndGame = _parseRoundColumn(c[1]);
+            var roundAndGame = _parseRoundColumn(c[1].trim());
             results.push(new ResultEntry(
                 roundAndGame[0],
                 roundAndGame[1],
                 replay_link,
-                c[2],
-                c[3],
-                c[6],
-                c[7],
-                c[8],
-                c[9],
-                c[10],
-                c[11],
-                c[12],
-                c[13],
-                c[14],
-                c[15],
-                c[16],
-                c[17],
-                c[18],
-                c[19],
-                c[20]
+                c[2].trim(),
+                c[3].trim(),
+                c[6].trim(),
+                c[7].trim(),
+                c[8].trim(),
+                c[9].trim(),
+                c[10].trim(),
+                c[11].trim(),
+                c[12].trim(),
+                c[13].trim(),
+                c[14].trim(),
+                c[15].trim(),
+                c[16].trim(),
+                c[17].trim(),
+                c[18].trim(),
+                c[19].trim(),
+                c[20].trim()
             ));
         }
     }
