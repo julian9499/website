@@ -97,6 +97,29 @@ router.get('/starcraft/current_game', function(req, res) {
     }
 }); 
 
+router.get('/starcraft/current_game_detailed', function(req, res) {
+    var game = schedule.getCurrentGame();
+
+    var firstTeam = index.getTeam(game.getFirstTeam());
+    var secondTeam = index.getTeam(game.getSecondTeam());
+
+    var response = {
+        'gamenumber': game.getGameNumber(),
+        'team1': {
+            'name': firstTeam.getName(),
+            'race': firstTeam.getRace(),
+            'winrate': firstTeam.getWinrate()
+        },
+        'team2': {
+            'name': secondTeam.getName(),
+            'race': secondTeam.getRace(),
+            'winrate': secondTeam.getWinrate()
+        }
+    };
+
+    res.send(response);
+});
+
 /**
  * Adds a route for team specific next game.
  */

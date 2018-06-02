@@ -78,7 +78,7 @@ class Schedule {
         if(number < this._gameList.length-1) {
             return this._gameList[number];
         } else {
-            return game.invalid();
+            return ScheduleEntry.invalid();
         }
     }
 

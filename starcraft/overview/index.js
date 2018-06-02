@@ -88,6 +88,7 @@ class Index {
     }
 
     getTeam(name) {
+        name = name + "";
         for(var i in this._teams) {
             var team = this._teams[i];
             if(team.getName().toUpperCase() == name.toUpperCase()) {
