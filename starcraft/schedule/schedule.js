@@ -73,6 +73,14 @@ class Schedule {
         this._currentgame = gamenumber;
     }
 
+    getGame(number) {
+        if(number < this._gameList.length-1) {
+            return this._gameList[number];
+        } else {
+            return game.invalid();
+        }
+    }
+
     // Check if the tournament of this schedule is active.
     isActive() {
         if(this._currentgame < 0) {
@@ -120,6 +128,48 @@ class Schedule {
         return ScheduleEntry.invalid();
     }
 
+    timeBetweenGames(index, gamenumber1, gamenumber2) {
+        // Index is not yet available
+        if(typeof(index) == "undefined" || index.getTeams().length == 0) {
+            return 0;
+        }
+
+        // If they are the same game, there is no time in between
+        if(gamenumber1 == gamenumber2) {
+            return 0;
+        }
+        // Make sure the firstGame is always the first game in order
+        if(gamenumber1 > gamenumber2) {
+            var temp = gamenumber2;
+            gamenumber2 = gamenumber1;
+            gamenumber1 = gamenumber2;
+        }
+
+        var total = 0;
+
+        for(var i = gamenumber1; i < gamenumber2; i++) {
+            var game = this.getGame(i);
+            var firstTeam = index.getTeam(game.getFirstTeam());
+            var secondTeam = index.getTeam(game.getSecondTeam());            
+
+            if(firstTeam.getAvgTime() == 0) {
+               firstTeam.setAvgTime(index.getAvgTime());
+            }
+
+            if(secondTeam.getAvgTime() == 0) {
+               secondTeam.setAvgTime(index.getAvgTime());
+            }
+
+
+            total += (firstTeam.getAvgTime() + secondTeam.getAvgTime())/2;
+            console.log(total);
+
+        }
+
+        var time_dilation = 0.3;
+        return total * time_dilation;
+
+    }
 }
 
 module.exports = { Schedule };

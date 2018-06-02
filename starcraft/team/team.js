@@ -1,3 +1,12 @@
+function _stringToTime(string) {
+    var time = 0;
+    var timeArray = string.split(":");
+    if(timeArray.length == 2) {
+        time += (parseInt(timeArray[0] * 60)) + parseInt(timeArray[1]);
+    }
+    return time;
+}
+
 class Team {
     constructor(name, race, games, win, loss, winpercentage, avgTime, hour, crash, timeout) {
         this._name = name;
@@ -34,6 +43,14 @@ class Team {
 
     getWinrate() {
         return this._winpercentage;
+    }
+
+    getAvgTime() {
+        return _stringToTime(this._avgTime);
+    }
+
+    setAvgTime(timeString) {
+        this.avgTime = timeString;
     }
 
     toString() {
