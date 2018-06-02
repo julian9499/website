@@ -79,6 +79,14 @@ class Result {
 
     }
 
+    getGameResult(number) {
+        if(number < this._results.length) {
+            return this._results[number];
+        } else {
+            return ScheduleEntry.invalid();
+        }
+    }
+
     getCurrentGameNumber() {
         return this._results.length;
     }

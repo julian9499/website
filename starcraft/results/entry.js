@@ -26,6 +26,10 @@ class ResultEntry {
         this._finish = new ResultDate(finish);
     }
 
+    static invalid() {
+        return new this(0, -1, "", "Unknown", "Unknown", "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0, "", "", "", "");
+    }
+
     getRound() {
         return this._round;
     }

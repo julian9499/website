@@ -3,6 +3,7 @@ var fs = require('fs');
 var router = express.Router();
 const { Schedule } = require('./starcraft/schedule/schedule');
 const { Result } = require('./starcraft/results/result');
+const { ResultEntry } = require('./starcraft/results/entry');
 const { Index } = require('./starcraft/overview/index');
 
 var dropout = require('./dropout/dropout');
@@ -119,6 +120,41 @@ router.get('/starcraft/current_game_detailed', function(req, res) {
 
     res.send(response);
 });
+
+router.get('/starcraft/get_previous_games', function(req, res) {
+    var history_length = 5;
+    var gameStart = schedule.getCurrentGameNumber() - history_length;
+
+    var games = [];
+
+    for(var i = 0; i < history_length; i++) {
+        games.push(results.getGameResult(gameStart + i));
+    }
+
+    if(games[0] == null) {
+        for(var i in games) {
+            games[i] = ResultEntry.invalid();
+        }
+    }
+    var response = [];
+    for(var i in games) {
+        var g = games[i];
+        response.push(
+            {
+                'game': g.getGame(),
+                'winner': g.getWinner(),
+                'winnerScore': g.getWinnerScore(),
+                'loser': g.getLoser(),
+                'loserScore': g.getLoserScore(),
+                'replay': g.getReplay(),
+                'map': g.getMap(),
+                'duration': g.getDuration() 
+            }
+        );
+    }
+
+    res.send(response);
+})
 
 /**
  * Adds a route for team specific next game.
