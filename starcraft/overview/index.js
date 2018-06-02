@@ -33,11 +33,15 @@ function _colourToRace(colour) {
     }
 }
 
+var avgTime = "0:00";
+
 function _parseTeams(data) {
     var teams = [];
 
     if(data != null && data != undefined && data != "") {
         var jQuery = cheerio.load(data, cheerioSettings);
+
+        avgTime = jQuery("table:nth-of-type(2) > tfoot > tr > td:nth-of-type(6)").text();
 
         var row = jQuery("table:nth-of-type(2) > tbody > tr");
         for(var i = 0; i < row.length; i++) {
@@ -45,16 +49,16 @@ function _parseTeams(data) {
             var colour = cheerio.load(row[i], cheerioSettings)("td").attr("bgcolor");
 
             teams.push(new Team(
-                c[1],
-                _colourToRace(colour),
-                c[2],
-                c[3],
-                c[4],
-                c[5],
-                c[6],
-                c[7],
-                c[8],
-                c[9]
+                c[1].trim(),
+                _colourToRace(colour.trim()),
+                c[2].trim(),
+                c[3].trim(),
+                c[4].trim(),
+                c[5].trim(),
+                c[6].trim(),
+                c[7].trim(),
+                c[8].trim(),
+                c[9].trim()
             ));
         }
     }
@@ -69,6 +73,7 @@ class Index {
         return new Promise((resolve, rejecct) => {
             _readIndex(filePath, (data) => {
                 this._teams = _parseTeams(data);
+                this._avgTime = avgTime;
                 resolve(this);
             });
         });
@@ -76,6 +81,10 @@ class Index {
 
     getTeams() {
         return this._teams;
+    }
+
+    getAvgTime() {
+        return this._avgTime;
     }
 
     getTeam(name) {
