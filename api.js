@@ -2,9 +2,8 @@ var express = require('express');
 var fs = require('fs');
 var router = express.Router();
 const { Schedule } = require('./starcraft/schedule/schedule');
-const { ScheduleEntry } = require('./starcraft/schedule/entry');
 const { Result } = require('./starcraft/results/result');
-const { ResultEntry } = require('./starcraft/results/entry');
+const { Index } = require('./starcraft/overview/index');
 
 var dropout = require('./dropout/dropout');
 router.get('/dropouts', function(req, res) {
@@ -42,6 +41,7 @@ router.get('/dropouts', function(req, res) {
 var game_number = -1;
 const RESULTS_LOCATION = "files/starcraft/results.html";
 const SCHEDULE_LOCATION = "files/starcraft_schedule.txt";
+const INDEX_LOCATION = "files/starcraft/index.html";
 
 var schedule;
 new Schedule(SCHEDULE_LOCATION).then((s) => {
@@ -53,21 +53,24 @@ new Result(RESULTS_LOCATION).then((r) => {
     results = r;
 });
 
+var index;
+new Index(INDEX_LOCATION).then((i) => {
+    index = i;
+});
+
 setInterval(() => {
     fs.access(RESULTS_LOCATION, fs.constants.F_OK, (err) => {
-        if(!err) {
-            new Result(RESULTS_LOCATION).then((r) => {
-                results = r;
-                if(results.getCurrentGameNumber() < schedule.getAmountOfGames()) {
-                    schedule.setCurrentGameNumber(results.getCurrentGameNumber());
-                } else {
-                    schedule.setCurrentGameNumber(-1);
-                }
-            });
-        }
-        if(err) {
-            schedule.setCurrentGameNumber(-1);
-        }
+        new Index(INDEX_LOCATION).then((i) => {
+            index = i;
+        });
+        new Result(RESULTS_LOCATION).then((r) => {
+            results = r;
+            if(results.getCurrentGameNumber() < schedule.getAmountOfGames()) {
+                schedule.setCurrentGameNumber(results.getCurrentGameNumber());
+            } else {
+                schedule.setCurrentGameNumber(-1);
+            }
+        });
     });
 
 }, 5000);
@@ -90,7 +93,7 @@ router.get('/starcraft/current_game', function(req, res) {
     if(game.getGameNumber() == -1) {
         res.send("There is no game right now.");
     } else {
-        res.send("Current game: " + game.toString()); 
+        res.send("Current game: " + game.toString(index)); 
     }
 }); 
 
@@ -105,7 +108,7 @@ router.get('/starcraft/next/:team([a-zA-Z0-9]+)', function(req, res) {
         if(game.getGameNumber() == -1) {
             res.send("There is no next game for " + req.params.team + ".");
         } else {
-            res.send("Next " + req.params.team + " game: " + game.toString() + ". Currently at game #" + schedule.getCurrentGameNumber()); 
+            res.send("Next " + req.params.team + " game: " + game.toString(index) + ". Currently at game #" + schedule.getCurrentGameNumber()); 
         }
     }
 })
@@ -118,7 +121,7 @@ router.get('/starcraft/next', function(req, res) {
     if(game.getGameNumber() == -1) {
         res.send("There is no next game.");
     } else {
-        res.send(game.toString()); 
+        res.send(game.toString(index)); 
     }
 })
 
