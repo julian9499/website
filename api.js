@@ -4,7 +4,6 @@ var router = express.Router();
 const { Schedule } = require('./starcraft/schedule/schedule');
 const { Result } = require('./starcraft/results/result');
 const { Index } = require('./starcraft/overview/index');
-const timeUtils = require('./utils/timeUtils');
 
 var dropout = require('./dropout/dropout');
 router.get('/dropouts', function(req, res) {
@@ -134,9 +133,7 @@ router.get('/starcraft/eta/:team([a-zA-Z0-9]+)', function(req, res) {
         if(game.getGameNumber() == -1) {
             res.send("No information about " + req.params.team);
         } else {
-            var timeInSeconds = schedule.timeBetweenGames(index, schedule.getCurrentGameNumber(), game.getGameNumber());
-
-            res.send(timeUtils.formatSecondsToDate(timeInSeconds))
+            res.send(schedule.timeBetweenGames(index, schedule.getCurrentGameNumber(), game.getGameNumber()));
         }
     }
 });

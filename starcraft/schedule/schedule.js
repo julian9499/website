@@ -1,5 +1,6 @@
 const { ScheduleEntry } = require('./entry');
 const fileUtils = require('../../utils/fileUtils');
+const timeUtils = require('../../utils/timeUtils');
 const readline = require('readline'); 
 
 
@@ -167,7 +168,7 @@ class Schedule {
         }
 
         var time_dilation = 0.3;
-        return total * time_dilation;
+        return timeUtils.formatSecondsToDate(total * time_dilation);
 
     }
 }
