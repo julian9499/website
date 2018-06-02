@@ -24,7 +24,44 @@ function _parseResults(data) {
 
     if(data != null && data != undefined && data != "") {
         var jQuery = cheerio.load(data, cheerioSettings);
-
+        function _parseResults(data) {
+            var results = [];
+        
+            if(data != null && data != undefined && data != "") {
+                var jQuery = cheerio.load(data, cheerioSettings);
+        
+                var row = jQuery("table > tbody > tr");
+                for(var i = 0; i < row.length; i++) {
+                    var c = cheerio.load(row[i], cheerioSettings).text().split("\n");
+                    var replay_link = cheerio.load(row[i], cheerioSettings)("td").find("a").attr("href");
+        
+                    var roundAndGame = _parseRoundColumn(c[1]);
+                    results.push(new ResultEntry(
+                        roundAndGame[0],
+                        roundAndGame[1],
+                        replay_link,
+                        c[2],
+                        c[3],
+                        c[6],
+                        c[7],
+                        c[8],
+                        c[9],
+                        c[10],
+                        c[11],
+                        c[12],
+                        c[13],
+                        c[14],
+                        c[15],
+                        c[16],
+                        c[17],
+                        c[18],
+                        c[19],
+                        c[20]
+                    ));
+                }
+            }
+            return results;
+        }
         var row = jQuery("table > tbody > tr");
         for(var i = 0; i < row.length; i++) {
             var c = cheerio.load(row[i], cheerioSettings).text().split("\n");
