@@ -199,6 +199,53 @@ router.get('/starcraft/get_next_games', (req, res) => {
     res.send(response);
 });
 
+
+router.get('/starcraft/get_next_games/:team([a-zA-Z0-9]+)', (req, res) => {
+    var gameEnd = schedule.getAmountOfGames();
+    var team = req.params.team.toLowerCase();
+    
+    var games = [];
+
+    for(var i = schedule.getCurrentGameNumber() + 1; i <= gameEnd; i++) {
+        var game = schedule.getGame(i);
+        if(game.getFirstTeam().toLowerCase() == team || game.getSecondTeam().toLowerCase() == team) {
+            games.push(schedule.getGame(i));
+        }
+    }
+
+    if(games.length == 0) {
+        games[0] = ScheduleEntry.invalid();
+    }
+
+    if(games[0] == null) {
+        for(var i in games) {
+            games[i] = ScheduleEntry.invalid();
+        }
+    }
+
+    var response = [];
+    for(var i in games) {
+        var g = games[i];
+        var firstTeam = index.getTeam(g.getFirstTeam());
+        var secondTeam = index.getTeam(g.getSecondTeam());
+        response.push(
+            {
+                'game': g.getGameNumber(),
+                'firstTeam': g.getFirstTeam(),
+                'firstRace': firstTeam.getRace(),
+                'firstWinrate': firstTeam.getWinrate(),
+                'secondTeam': g.getSecondTeam(),
+                'secondRace': secondTeam.getRace(),
+                'secondWinrate': secondTeam.getWinrate(),
+                'map': g.getMap(),
+                'eta': schedule.timeBetweenGames(index, schedule.getCurrentGameNumber(), g.getGameNumber())
+            }
+        );
+    }
+
+    res.send(response);
+});
+
 /**
  * Adds a route for team specific next game.
  */
