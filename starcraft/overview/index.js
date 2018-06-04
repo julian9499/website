@@ -14,7 +14,6 @@ function _readIndex(filePath, callback) {
             })
         } else {
             callback("");
-            console.log(filePath + " is not available");
         }
     });
 }
