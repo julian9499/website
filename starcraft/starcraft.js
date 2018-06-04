@@ -32,7 +32,7 @@ router.get('/', function(req, res) {
         for(var i in fileArray) {
             var fileName = fileArray[i];
             if(fileName.charAt(0) != '.') {
-                content += "<a href='" + fileName + "/'>" + fileName.replace('_round', 'Tournament ') +"</a><br />";
+                content += "<a href='/starcraft/" + fileName + "/'>" + fileName.replace('_round', 'Tournament ') +"</a><br />";
             }
         }
         res.send(content);
