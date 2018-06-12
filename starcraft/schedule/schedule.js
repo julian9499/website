@@ -164,7 +164,7 @@ class Schedule {
 
 
             var gameTime = (firstTeam.getAvgTime() + secondTeam.getAvgTime())/2;
-            var minSeconds = 300/TIME_DILATION;
+            var minSeconds = 480/TIME_DILATION;
             if(gameTime <= minSeconds) {
                 total += minSeconds;
             } else {
