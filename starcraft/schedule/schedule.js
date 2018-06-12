@@ -3,6 +3,7 @@ const fileUtils = require('../../utils/fileUtils');
 const timeUtils = require('../../utils/timeUtils');
 const readline = require('readline'); 
 
+const TIME_DILATION = 0.3533;
 
 function _parseFile(fileLocation, callback) {
     // Check if the file exists.
@@ -163,16 +164,16 @@ class Schedule {
 
 
             var gameTime = (firstTeam.getAvgTime() + secondTeam.getAvgTime())/2;
-            if(gameTime <= 300) {
-                total += 300;
+            var minSeconds = 300/TIME_DILATION;
+            if(gameTime <= minSeconds) {
+                total += minSeconds;
             } else {
                 total += gameTime;
             }
 
         }
 
-        var time_dilation = 0.3533;
-        return timeUtils.formatSecondsToDate(total * time_dilation);
+        return timeUtils.formatSecondsToDate(total * TIME_DILATION);
 
     }
 }
