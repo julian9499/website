@@ -162,7 +162,12 @@ class Schedule {
             }
 
 
-            total += (firstTeam.getAvgTime() + secondTeam.getAvgTime())/2;
+            var gameTime = (firstTeam.getAvgTime() + secondTeam.getAvgTime())/2;
+            if(gameTime <= 300) {
+                total += 300;
+            } else {
+                total += gameTime;
+            }
 
         }
 
