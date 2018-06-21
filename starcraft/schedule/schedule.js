@@ -16,7 +16,7 @@ function _parseFile(fileLocation, callback) {
 
             // Set up variables for regex execution.
             var entryList = [];
-            var regex = /(?:\s*)(\d+)(?:\s*)(\d+)(?:\s*)([a-zA-Z0-9]+)(?:\s*)([a-zA-Z0-9]+)(?:\s*)([a-zA-Z0-9().]+)/;
+            var regex = /(?:\s*)(\d+)(?:\s*)(\d+)(?:\s*)([a-zA-Z0-9_]+)(?:\s*)([a-zA-Z0-9_]+)(?:\s*)([a-zA-Z0-9()._]+)/;
 
             // Parse the regex for every line.
             lineReader.on('line', (line) => {
@@ -25,7 +25,7 @@ function _parseFile(fileLocation, callback) {
                 var digit = regexExecution[2];
                 var firstTeam = regexExecution[3];
                 var secondTeam = regexExecution[4];
-                var map = /([A-Za-z0-9]+)(?=\.)/.exec(regexExecution[5])[0];
+                var map = /([A-Za-z0-9_]+)(?=\.)/.exec(regexExecution[5])[0];
                 
                 // Push it to the array.
                 entryList.push(new ScheduleEntry(gameNumber, digit, firstTeam, secondTeam, map)); 
