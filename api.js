@@ -200,7 +200,7 @@ router.get('/starcraft/get_next_games', (req, res) => {
 });
 
 
-router.get('/starcraft/get_next_games/:team([a-zA-Z0-9]+)', (req, res) => {
+router.get('/starcraft/get_next_games/:team([a-zA-Z0-9_]+)', (req, res) => {
     var gameEnd = schedule.getAmountOfGames();
     var team = req.params.team.toLowerCase();
     
@@ -249,7 +249,7 @@ router.get('/starcraft/get_next_games/:team([a-zA-Z0-9]+)', (req, res) => {
 /**
  * Adds a route for team specific next game.
  */
-router.get('/starcraft/next/:team([a-zA-Z0-9]+)', function(req, res) {
+router.get('/starcraft/next/:team([a-zA-Z0-9_]+)', function(req, res) {
     if(req.params.team == "null") {
         res.redirect('/api/starcraft/next');
     } else {
@@ -274,7 +274,7 @@ router.get('/starcraft/next', function(req, res) {
     }
 })
 
-router.get('/starcraft/eta/:team([a-zA-Z0-9]+)', function(req, res) {
+router.get('/starcraft/eta/:team([a-zA-Z0-9_]+)', function(req, res) {
     if(req.params.team == "null") {
         res.send("Please provide a team name.");
     } else {
