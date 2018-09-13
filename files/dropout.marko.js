@@ -20,9 +20,9 @@ function render(input, out, __component, component, state) {
 
   component_globals_tag({}, out);
 
-  out.w("<div class=\"wrapper\"><div style=\"display:none;overflow:hidden\"><iframe width=\"560\" height=\"315\" src=\"https://www.youtube-nocookie.com/embed/rY0WxgSXdEE?rel=0&amp;amp;controls=0&amp;amp;showinfo=0&amp;amp;start=5&amp;amp;autoplay=1&amp;amp;loop=1&amp;amp;playlist=rY0WxgSXdEE\" frameborder=\"0\" allowfullscreen></iframe></div><div class=\"content\"><div class=\"text\">Minstens <span id=\"dropouts\">" +
+  out.w("<div class=\"wrapper\"><div style=\"display:none;overflow:hidden\"><iframe width=\"560\" height=\"315\" src=\"https://www.youtube-nocookie.com/embed/rY0WxgSXdEE?rel=0&amp;amp;controls=0&amp;amp;showinfo=0&amp;amp;start=5&amp;amp;autoplay=1&amp;amp;loop=1&amp;amp;playlist=rY0WxgSXdEE\" frameborder=\"0\" allowfullscreen></iframe></div><div class=\"content\"><div class=\"text\">At least <span id=\"dropouts\">" +
     marko_escapeXml(data.dropouts) +
-    "</span> mensen hebben CSE al opgegeven</div></div></div>");
+    "</span> people have already given up CSE</div></div></div>");
 
   init_components_tag({}, out);
 
